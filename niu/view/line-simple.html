@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0;background-color: #333333">
+<!--<div id="tooltip"  style="margin: 10px">-->
+    <!--<label class="col-form-label">REAL TIME</label>-->
+    <!--<div class="btn-group" role="group" aria-label="Basic example">-->
+        <!--<button id='on' type="button" class="btn btn-secondary">ON</button>-->
+        <!--<button id='off' type="button" class="btn btn-secondary">OFF</button>-->
+    <!--</div>-->
+<!--</div>-->
+<div id="niu" style="height: 50%;width: 100%;min-height: 100px"></div>
+<div id="hu" style="height: 50%;width: 100%;min-height: 100px"></div>
+<link rel="stylesheet" href="stylesheet/bootstrap.css" type="text/css"/>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    var dom = document.getElementById("niu");
+    var myChart = echarts.init(dom, 'dark');
+
+    var dom_hu = document.getElementById("hu");
+    var myChart_hu = echarts.init(dom_hu, 'dark');
+
+
+    function show() {
+        $.get("../data/niu_data", function (data) {
+            data = JSON.parse(data);
+            times = [];
+            rows = [];
+            for (i = data.length - 1; i > -1; i--) {
+                times.push(data[i][0]);
+                rows.push(data[i][1]);
+            }
+
+            var app = {};
+            option = {
+                xAxis: {
+                    type: 'category',
+                    data: times
+                },
+                yAxis: {
+                    type: 'category'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function (params) {
+                        params = params[0];
+                        return params.name + ' : ' + params.value;
+                    },
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                dataZoom: [
+                    {
+                        show: true,
+                        realtime: true,
+                        start: 85,
+                        end: 100
+                    },
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 45,
+                        end: 85
+                    }
+                ],
+                series: [{
+                    data: rows,
+                    type: 'line',
+                    symbolSize: 4,
+                    showAllSymbol: true
+                }]
+            };
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
+        });
+
+        $.get("../data/hu_data", function (data) {
+            data = JSON.parse(data);
+            times = [];
+            rows = [];
+            for (i = data.length - 1; i > -1; i--) {
+                times.push(data[i][0]);
+                rows.push(data[i][1]);
+            }
+            var app = {};
+            option = {
+                xAxis: {
+                    type: 'category',
+                    data: times
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function (params) {
+                        params = params[0];
+                        return params.name + ' : ' + params.value;
+                    },
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                dataZoom: [
+                    {
+                        show: true,
+                        realtime: true,
+                        start: 85,
+                        end: 100
+                    },
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 45,
+                        end: 85
+                    }
+                ],
+                yAxis: {
+                    type: 'category'
+                },
+                series: [{
+                    data: rows,
+                    type: 'line',
+                    symbolSize: 4,
+                    showAllSymbol: true
+                }]
+            };
+            if (option && typeof option === "object") {
+                myChart_hu.setOption(option, true);
+            }
+        });
+    }
+
+    show();
+</script>
+</body>
+</html>
