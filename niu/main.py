@@ -2,9 +2,11 @@ import json
 import os
 import time
 
-from niu.crawler.api import get_data
-from niu.report.hu_report import make_hu_report
-from niu.report.niu_report import make_niu_report
+import sys
+
+from crawler.api import get_data
+from report.hu_report import make_hu_report
+from report.niu_report import make_niu_report
 
 
 def writ_to_file(data):
@@ -81,4 +83,5 @@ def writ_to_file(data):
 
 
 if __name__ == '__main__':
+    sys.path.insert(0, os.path.dirname(__file__))
     writ_to_file(get_data(240))

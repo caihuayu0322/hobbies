@@ -4,13 +4,20 @@
     <meta charset="utf-8">
 </head>
 <body style="height: 100%; margin: 0;background-color: #333333">
-<!--<div id="tooltip"  style="margin: 10px">-->
-    <!--<label class="col-form-label">REAL TIME</label>-->
-    <!--<div class="btn-group" role="group" aria-label="Basic example">-->
-        <!--<button id='on' type="button" class="btn btn-secondary">ON</button>-->
-        <!--<button id='off' type="button" class="btn btn-secondary">OFF</button>-->
-    <!--</div>-->
-<!--</div>-->
+<div style="position: absolute;z-index: 1;top: 5%;right: 11%;color: white">
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="on" value="option1" checked>
+        <label class="form-check-label" for="on">
+            Real Time(Refresh once a minute)
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" id="off" value="option2">
+        <label class="form-check-label" for="off">
+            History(Last 2 month)
+        </label>
+    </div>
+</div>
 <div id="niu" style="height: 50%;width: 100%;min-height: 100px"></div>
 <div id="hu" style="height: 50%;width: 100%;min-height: 100px"></div>
 <link rel="stylesheet" href="stylesheet/bootstrap.css" type="text/css"/>
@@ -28,6 +35,8 @@
 
     var dom_hu = document.getElementById("hu");
     var myChart_hu = echarts.init(dom_hu, 'dark');
+    var hook = null;
+    var interval = 30000;
 
 
     function show() {
@@ -59,18 +68,19 @@
                         animation: false
                     }
                 },
+                animation: false,
                 dataZoom: [
                     {
                         show: true,
                         realtime: true,
-                        start: 85,
+                        start: 99.5,
                         end: 100
                     },
                     {
                         type: 'inside',
                         realtime: true,
-                        start: 45,
-                        end: 85
+                        start: 99.5,
+                        end: 100
                     }
                 ],
                 series: [{
@@ -109,18 +119,19 @@
                         animation: false
                     }
                 },
+                animation: false,
                 dataZoom: [
                     {
                         show: true,
                         realtime: true,
-                        start: 85,
+                        start: 99.5,
                         end: 100
                     },
                     {
                         type: 'inside',
                         realtime: true,
-                        start: 45,
-                        end: 85
+                        start: 99.5,
+                        end: 100
                     }
                 ],
                 yAxis: {
@@ -139,7 +150,23 @@
         });
     }
 
+    $('#on').click(function () {
+        // refresh once
+        show();
+        if (!hook) {
+            hook = setInterval(show, interval);
+        }
+    });
+
+    $('#off').click(function () {
+        if (hook) {
+            clearInterval(hook);
+            hook = null;
+        }
+    });
+
     show();
+    hook = setInterval(show, interval)
 </script>
 </body>
 </html>

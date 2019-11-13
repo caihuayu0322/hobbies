@@ -1,2 +1,0 @@
-# hobbies
-persional hobbies
