@@ -18,8 +18,8 @@
         </label>
     </div>
 </div>
-<div id="niu" style="height: 50%;width: 100%;min-height: 100px"></div>
-<div id="hu" style="height: 50%;width: 100%;min-height: 100px"></div>
+<div id="niu" style="height: 50%;width: 100%;transform: rotate(90deg);"></div>
+<div id="hu" style="height: 50%;width: 100%;transform: rotate(90deg);"></div>
 <link rel="stylesheet" href="stylesheet/bootstrap.css" type="text/css"/>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
@@ -38,6 +38,22 @@
     var hook = null;
     var interval = 30000;
 
+    /**
+     * @return {boolean}
+     */
+    function IsPC() {
+        var userAgentInfo = navigator.userAgent;
+        var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+        var flag = true;
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
 
     function show() {
         $.get("../data/niu_data", function (data) {
@@ -48,6 +64,9 @@
                 times.push(data[i][0]);
                 rows.push(data[i][1]);
             }
+
+            times.push('init');
+            rows.push(0);
 
             var app = {};
             option = {
@@ -103,6 +122,9 @@
                 times.push(data[i][0]);
                 rows.push(data[i][1]);
             }
+
+            times.push('init');
+            rows.push(0);
             var app = {};
             option = {
                 xAxis: {
