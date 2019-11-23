@@ -1,3 +1,6 @@
+from util import format_niu_data
+
+
 def get_max_same_num(data):
     tmp_last_data = 0
     old_max = 1
@@ -69,45 +72,8 @@ def get_max_not_same_num(data):
     return old_max, res
 
 
-def get_niu(data):
-    niu = -1
-    for k, v in enumerate(data):
-        if k < len(data) - 2:
-            for i in range(k + 1, len(data) - 1):
-                for ii in range(i + 1, len(data)):
-                    sum = v + data[i] + data[ii]
-                    if not sum % 10:
-                        tmp = list(filter(lambda x: False if x in (k, i, ii) else True, list(range(len(data)))))
-                        for it in tmp:
-                            sum += data[it]
-                        niu = sum % 10
-                        return niu if niu else 10
-    return niu
-
-
-def format_data(data):
-    tmp = list()
-    niu = list()
-    report = list()
-    for i in data:
-        time = i[0]
-        i = i[1]
-        first_zone = get_niu(i[0:5])
-        last_zone = get_niu(i[5:10])
-
-        res = 1 if first_zone > last_zone else 0
-        tmp.append(res)
-        niu.append((first_zone, last_zone))
-        report.append((time, res))
-
-    for i in niu:
-        print(i)
-
-    return tmp, report
-
-
 def make_niu_report(data):
-    data, report = format_data(data)
+    data, report = format_niu_data(data)
 
     total = len(data)
     first_zone = 0

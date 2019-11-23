@@ -1,3 +1,6 @@
+from util import format_hu_data
+
+
 def get_max_same_num(data):
     last_record = 0
     old_max = 1
@@ -70,29 +73,8 @@ def get_max_not_same_num(data):
     return old_max, res
 
 
-def get_hu(data):
-    return list(map(lambda x: 1 if x[0] > x[9] else 0, data))
-
-
-def format_data(data):
-    records = list(map(lambda x: x[1], data))
-    time = list(map(lambda x: x[0], data))
-    report = list()
-    data = get_hu(records)
-
-    # visual data for report
-    for k, v in enumerate(data):
-        report.append((time[k], v))
-
-    hu = list(map(lambda x: '1    0' if x else '0    1', data))
-    for i in hu:
-        print(i)
-
-    return data, report
-
-
 def make_hu_report(data):
-    data, report = format_data(data)
+    data, report = format_hu_data(data)
 
     total = len(data)
     first_zone = 0

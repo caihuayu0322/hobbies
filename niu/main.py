@@ -7,11 +7,14 @@ import sys
 from crawler.api import get_data
 from report.hu_report import make_hu_report
 from report.niu_report import make_niu_report
+from report.three_times_turn import make_x_turn
 
 
 def writ_to_file(data):
     report = make_niu_report(data)
     report1 = make_hu_report(data)
+    hu, niu = make_x_turn(data, 3)
+
     with open("/tmp/caicai/private/res_%s" % time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime(time.time())),
               'w+') as f:
         f.write('niu')
@@ -84,4 +87,7 @@ def writ_to_file(data):
 
 if __name__ == '__main__':
     sys.path.insert(0, os.path.dirname(__file__))
-    writ_to_file(get_data(240))
+
+    # with open('/tmp/caicai.log', 'w+') as fp:
+    #     fp.write(json.dumps(get_data(28800)))
+    writ_to_file(get_data(num=480))

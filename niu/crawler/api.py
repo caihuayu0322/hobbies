@@ -16,5 +16,9 @@ def fetch_data(num=1000):
     return data
 
 
-def get_data(num=1000):
-    return fetch_data(num)
+def get_data(num=0, filepath='/root/private/caicai/hobbies/niu_tmp/niu/data/caicai.log'):
+    if num:
+        return fetch_data(num)
+    else:
+        with open(filepath, 'r') as fp:
+            return json.loads(fp.readline(), encoding='utf-8')
